@@ -1,0 +1,20 @@
+{
+  "phpVersion": "8.1",
+  "singleQuote": true,
+  "sortHtmlAttributes": "code-guide",
+  "plugins": [
+    "@prettier/plugin-php"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.php"
+      ],
+      "excludeFiles": "*.blade.php",
+      "options": {
+        "parser": "php",
+        "tabWidth": 4
+      }
+    }
+  ]
+}
