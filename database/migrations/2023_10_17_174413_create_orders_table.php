@@ -13,6 +13,10 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_num', 20);
+            $table
+                ->foreignId('user_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
             $table->string('type');
             $table->string('status');
             $table->timestamps();
