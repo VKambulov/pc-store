@@ -13,7 +13,13 @@
         </option>
       </LaravelCodeGeneration>
     </option>
+    <option name="defaultLanguage" value="ru" />
     <option name="frameworkFound" value="true" />
+    <option name="translation">
+      <LaravelTranslation>
+        <option name="defaultPath" value="lang" />
+      </LaravelTranslation>
+    </option>
     <option name="userClassName" value="\AppModels\User" />
   </component>
 </project>
