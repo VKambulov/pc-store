@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use App\Enums\OrderType;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -50,6 +51,30 @@ class OrderResource extends Resource
                         ->label(__('orders.status'))
                         ->required()
                         ->options(OrderStatus::class),
+                    Forms\Components\Repeater::make('members')
+                        ->label(__('products.products'))
+                        ->relationship('products')
+                        ->schema([
+                            Forms\Components\Select::make('product_id')
+                                ->label(__('products.product'))
+                                ->required()
+                                ->options(Product::all()->pluck('name', 'id'))
+                                ->searchable(),
+                            Forms\Components\TextInput::make('price')
+                                ->label(__('products.price'))
+                                ->required()
+                                ->numeric()
+                                ->postfix('₽'),
+                            Forms\Components\TextInput::make('quantity')
+                                ->label(__('orders.quantity'))
+                                ->numeric()
+                                ->required()
+                                ->default(1)
+                                ->minValue(1)
+                                ->postfix('шт'),
+                        ])
+                        ->columns(3)
+                        ->columnSpan(2),
                 ])
                 ->columns(),
         ]);
