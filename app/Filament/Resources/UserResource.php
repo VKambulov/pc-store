@@ -14,26 +14,48 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+
+    public static function getModelLabel(): string
+    {
+        return __('users.user');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('users.users');
+    }
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('name')
-                ->required()
-                ->maxLength(255),
-            Forms\Components\TextInput::make('surname')
-                ->required()
-                ->maxLength(255),
-            Forms\Components\TextInput::make('patronymic')->maxLength(255),
-            Forms\Components\TextInput::make('email')
-                ->email()
-                ->required()
-                ->maxLength(255),
-            Forms\Components\DatePicker::make('date_of_birth')->required(),
-            Forms\Components\Textarea::make('address')
-                ->maxLength(65535)
-                ->columnSpanFull(),
+            Forms\Components\Section::make()
+                ->schema([
+                    Forms\Components\TextInput::make('name')
+                        ->label(__('users.name'))
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('surname')
+                        ->label(__('users.surname'))
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('patronymic')
+                        ->label(__('users.patronymic'))
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('email')
+                        ->email()
+                        ->required()
+                        ->maxLength(255)
+                        ->columnSpan(2),
+                    Forms\Components\DatePicker::make('date_of_birth')
+                        ->label(__('users.date_of_birth'))
+                        ->required(),
+                    Forms\Components\Textarea::make('address')
+                        ->label(__('users.address'))
+                        ->maxLength(65535)
+                        ->columnSpanFull(),
+                ])
+                ->columns(3),
         ]);
     }
 
@@ -41,18 +63,27 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->searchable(),
-                Tables\Columns\TextColumn::make('surname')->searchable(),
-                Tables\Columns\TextColumn::make('patronymic')->searchable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('users.name'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('surname')
+                    ->label(__('users.surname'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('patronymic')
+                    ->label(__('users.patronymic'))
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('email')->searchable(),
                 Tables\Columns\TextColumn::make('date_of_birth')
+                    ->label(__('users.date_of_birth'))
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__ucfirst('validation.attributes.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__ucfirst('validation.attributes.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

@@ -17,22 +17,41 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-truck';
+
+    public static function getModelLabel(): string
+    {
+        return __('orders.order');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('orders.orders');
+    }
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('order_num')->maxLength(20),
-            Forms\Components\Select::make('user_id')
-                ->required()
-                ->options(User::all()->pluck('name', 'id'))
-                ->searchable(),
-            Forms\Components\Select::make('type')
-                ->required()
-                ->options(OrderType::class),
-            Forms\Components\Select::make('status')
-                ->required()
-                ->options(OrderStatus::class),
+            Forms\Components\Section::make()
+                ->schema([
+                    Forms\Components\TextInput::make('order_num')
+                        ->label(__('orders.order_num'))
+                        ->maxLength(20),
+                    Forms\Components\Select::make('user_id')
+                        ->label(__('users.user'))
+                        ->required()
+                        ->options(User::all()->pluck('name', 'id'))
+                        ->searchable(),
+                    Forms\Components\Select::make('type')
+                        ->label(__('orders.type'))
+                        ->required()
+                        ->options(OrderType::class),
+                    Forms\Components\Select::make('status')
+                        ->label(__('orders.status'))
+                        ->required()
+                        ->options(OrderStatus::class),
+                ])
+                ->columns(),
         ]);
     }
 
@@ -40,17 +59,26 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
+                Tables\Columns\TextColumn::make('order_num')
+                    ->label(__('orders.order_num'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('type')
+                    ->label(__('orders.type'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->label(__('orders.status'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label(__('users.user'))
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('order_num')->searchable(),
-                Tables\Columns\TextColumn::make('type')->searchable(),
-                Tables\Columns\TextColumn::make('status')->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__ucfirst('validation.attributes.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__ucfirst('validation.attributes.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
