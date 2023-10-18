@@ -1,0 +1,42 @@
+name: CD
+
+on:
+  release:
+    types: [ released, prereleased ]
+
+concurrency: production_environment
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure app
+        uses: appleboy/ssh-action@v1.0.0
+        env:
+          SSH_PATH: ${{ secrets.SSH_PATH }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: SSH_PATH
+          script: |
+            set -e
+            echo "Deploying application ..."
+            cd $SSH_PATH
+            (/opt/php82/bin/php artisan down --refresh=15) || true
+            git fetch
+            git reset --hard origin/master
+            /opt/php82/bin/php ./composer.phar install --no-interaction --no-dev --optimize-autoloader
+            # npm install
+            # npm run build
+            /opt/php82/bin/php artisan migrate --force
+            /opt/php82/bin/php artisan config:cache
+            /opt/php82/bin/php artisan route:cache
+            /opt/php82/bin/php artisan view:cache
+            /opt/php82/bin/php artisan event:cache
+            /opt/php82/bin/php artisan queue:restart
+            /opt/php82/bin/php artisan up
+            # sudo service php-fpm restart
+            echo "Application deployed!"
