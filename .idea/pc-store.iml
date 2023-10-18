@@ -149,6 +149,16 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/archtechx/enums" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dragon-code/contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dragon-code/pretty-array" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dragon-code/support" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-lang/attributes" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-lang/common" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-lang/http-statuses" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-lang/lang" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel-lang/publisher" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php81" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
