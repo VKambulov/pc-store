@@ -59,6 +59,7 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('price')
                     ->label(__('products.price'))
                     ->money('rub')
+                    ->alignEnd()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__ucfirst('validation.attributes.created_at'))

@@ -7,7 +7,7 @@ use App\Enums\OrderType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
@@ -20,9 +20,12 @@ class Order extends Model
         'type' => OrderType::class,
     ];
 
-    public function products(): HasMany
+    public function products(): BelongsToMany
     {
-        return $this->hasMany(OrderProduct::class, 'order_id');
+        return $this->belongsToMany(Product::class, OrderProduct::class)
+            ->using(OrderProduct::class)
+            ->withPivot(['price', 'quantity'])
+            ->withTimestamps();
     }
 
     public function user(): BelongsTo

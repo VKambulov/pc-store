@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
@@ -12,8 +12,10 @@ class Product extends Model
 
     protected $fillable = ['name', 'price', 'description'];
 
-    public function orders(): HasMany
+    public function orders(): BelongsToMany
     {
-        return $this->hasMany(OrderProduct::class, 'product_id');
+        return $this->belongsToMany(Order::class, OrderProduct::class)
+            ->using(OrderProduct::class)
+            ->withPivot(['price', 'quantity']);
     }
 }
