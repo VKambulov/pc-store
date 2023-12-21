@@ -22,6 +22,8 @@ return new class extends Migration {
             $table->unsignedMediumInteger('quantity')->default(1);
             $table->unsignedDecimal('price');
             $table->timestamps();
+
+            $table->primary(['order_id', 'product_id']);
         });
     }
 
